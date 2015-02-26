@@ -67,7 +67,14 @@ grep "$UNIONDIR" /etc/mtab >/dev/null
 # make user-changes-directory available at /sysroot
 # make package cache available at /debget/_pool
 cd /
-"$CMD_PROOT" -R "$UNIONDIR" -b "$ROOTDIR":/sysroot -b "$PKGCACHE":/debget/_pool /bin/bash
+"$CMD_PROOT" -r "$UNIONDIR"\
+    -b "$ROOTDIR":/sysroot\
+    -b "$PKGCACHE":/debget/_pool\
+    -b "/dev":/dev\
+    -b "/sys":/sys\
+    -b "/tmp":/tmp\
+    -b "/proc":/proc\
+    /bin/bash
 
 # Umount
 fusermount -u "$UNIONDIR"
