@@ -21,7 +21,7 @@ function util_lookup()
         if [ ! -x "$REPLY" ]; then
             "$CMD_DEBGET" -b /tmp -w "$TOOLDIR" -i $1
             [ $? -ne 0 ] && exit 1
-            [ ! -x "$REPLY" ] && echo "Cannot find '$1' executable"; exit 1
+            [ ! -x "$REPLY" ] && echo "Cannot find '$1' executable" && exit 1
         fi
     fi
 
@@ -47,7 +47,7 @@ CMD_DEBGET="$MYDIR/debget.sh"
 util_lookup 'unionfs-fuse'
 CMD_UNIONFS="$REPLY"
 util_lookup 'proot'
-CMD_PROOT="$REPLY"
+CMD_PROOT="`readlink -f \"$REPLY\"`"
 
 mkdir -p "$ROOTDIR/usr/bin"
 touch "$ROOTDIR/usr/bin/debget"
@@ -59,6 +59,8 @@ if [ $? -ne 0 ]; then
 fi
 
 # Mount the union
+grep "$UNIONDIR" /etc/mtab >/dev/null
+[ $? -eq 0 ] && fusermount -u "$UNIONDIR"
 "$CMD_UNIONFS" "$ROOTDIR"=RW:/=RO "$UNIONDIR"
 [ $? -ne 0 ] && exit 1
 
