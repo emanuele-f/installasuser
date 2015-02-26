@@ -1,0 +1,10 @@
+_debget_show()
+{
+        local cur
+
+        COMPREPLY=()
+        cur=${COMP_WORDS[COMP_CWORD]}
+        COMPREPLY=($( compgen -W '--listowners --listdbs --db=' -- $cur ) \
+                        $( apt-cache pkgnames -- $cur ) )
+}
+complete -F _debget_show debget
