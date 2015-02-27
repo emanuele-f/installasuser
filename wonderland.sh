@@ -47,6 +47,7 @@ function util_lookup()
     if [ ! -x "$REPLY" ]; then
         REPLY="$TOOLDIR/usr/bin/$1"
         if [ ! -x "$REPLY" ]; then
+            [ ! -d "$TOOLDIR" ] && mkdir -p "$TOOLDIR"
             "$CMD_DEBGET" -b /tmp -w "$TOOLDIR" -i $1
             [ $? -ne 0 ] && exit 1
             [ ! -x "$REPLY" ] && echo "Cannot find '$1' executable" && exit 1
@@ -86,7 +87,6 @@ CMD_DEBGET="$MYDIR/debget.sh"
 [ ! -d "$UNIONDIR"  ] && mkdir -p "$UNIONDIR"
 [ ! -d "$PKGCACHE"  ] && mkdir -p "$PKGCACHE"
 [ ! -d "$ROOTDIR/$PKGDIRNAME"  ] && mkdir -p "$ROOTDIR/$PKGDIRNAME"
-[ ! -d "$TOOLDIR" ] && mkdir -p "$TOOLDIR"
 
 # Additional deps
 util_lookup 'unionfs-fuse'
@@ -111,7 +111,6 @@ add_proot_bind /sys
 add_proot_bind /run
 
 # Additional bound points
-add_proot_bind "$ROOTDIR" /sysroot
 add_proot_bind "$PKGCACHE" /debget/_pool
 
 # Mount the union
