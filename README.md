@@ -41,3 +41,9 @@ The process of setting up the environment and enter it is performed by [wonderla
 5. When you've finished with the proot, just exit to cleanup the environment.
 
 The `sysroot` folder will be created and used to maintain your modifications. `pkgcache` will also be created to hold your downloaded packages. It is binded, into the proot jail, to '/debget/_pool' and used by debget command.
+
+Software recipes
+----------------
+Here is a list of successfully installed software on Ubuntu Trusty:
+
+- *dolphin-emu*: based upon [glennric ppa](https://launchpad.net/~glennric/+archive/ubuntu/dolphin-emu), here is an archive containing the required packages: [dolphin-emu.tar](dolphin-emu.tar). Unpack it into your `sysroot/debget` folder, then install it from inside proot jain using `debget -d dolphin-emu`. In order to run the gtk version of dolphin-emu, you will also need libwxgtk3.0 (`debget -i libwxgtk3.0`). To make it work properly, be sure to bind your home directory inside the proot (use `wonderland.sh -b /home /home`).
