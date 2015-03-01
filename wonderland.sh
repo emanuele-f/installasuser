@@ -111,6 +111,7 @@ add_proot_bind /sys
 add_proot_bind /run
 
 # Additional bound points
+add_proot_bind "$ROOTDIR" /sysroot # write here to overcome permission issues
 add_proot_bind "$PKGCACHE" /debget/_pool
 
 # Mount the union
