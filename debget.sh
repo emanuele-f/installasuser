@@ -23,6 +23,7 @@ function usage()
     echo -e " -f\tforce package download even if already existing in cache"
     echo -e " -d\tinstall deb files from existing package cache"
     echo -e " -w [d]\tset installation directory"
+    echo -e " -s\tstrip documentation files"
     #~ echo -e "\nCurrent configuration:"
     #~ echo -e " PKGDIR\t\t$PKGDIR"
     #~ echo -e " PKGCACHE\t$PKGCACHE"
@@ -63,15 +64,15 @@ function do_install()
         for f in `ar t "$pkg"`; do
             case $f in
                 data.tar)
-                    ar p "$PKGDIR/$PACKAGE/$pack" data.tar | tar -C "$SYSROOT" -xf -;;
+                    ar p "$PKGDIR/$PACKAGE/$pack" data.tar | tar -C "$SYSROOT" $DO_STRIP -xf -;;
                 data.tar.xz)
-                    ar p "$PKGDIR/$PACKAGE/$pack" data.tar.xz | tar -C "$SYSROOT" --xz -xf -;;
+                    ar p "$PKGDIR/$PACKAGE/$pack" data.tar.xz | tar -C "$SYSROOT" $DO_STRIP --xz -xf -;;
                 data.tar.gz)
-                    ar p "$PKGDIR/$PACKAGE/$pack" data.tar.gz | tar -C "$SYSROOT" --gzip -xf -;;
+                    ar p "$PKGDIR/$PACKAGE/$pack" data.tar.gz | tar -C "$SYSROOT" $DO_STRIP --gzip -xf -;;
                 data.tar.bz2)
-                    ar p "$PKGDIR/$PACKAGE/$pack" data.tar.bz2 | tar -C "$SYSROOT" --bzip2 -xf -;;
+                    ar p "$PKGDIR/$PACKAGE/$pack" data.tar.bz2 | tar -C "$SYSROOT" $DO_STRIP --bzip2 -xf -;;
                 data.tar.lzma)
-                    ar p "$PKGDIR/$PACKAGE/$pack" data.tar.lzma | tar -C "$SYSROOT" --lzma -xf -;;
+                    ar p "$PKGDIR/$PACKAGE/$pack" data.tar.lzma | tar -C "$SYSROOT" $DO_STRIP --lzma -xf -;;
             esac
         done
 	done
@@ -80,6 +81,7 @@ function do_install()
 DO_DOWNLOAD=1
 DO_INSTALL=0
 DO_FORCE_DOWNLOAD=0
+DO_STRIP=
 PACKAGE=
 # Default is /
 BASEDIR=""
@@ -105,6 +107,10 @@ while [[ ! -z "$1" ]]; do
         shift
         [ -z "$1" ] && usage
         SYSROOT="`readlink -f \"$1\"`"
+        ;;
+    -s)
+        DO_STRIP="--exclude=./usr/share/doc --exclude=./usr/share/man"
+        echo $DO_STRIP
         ;;
     *)
         [ ! -z "$PACKAGE" ] && usage
