@@ -14,7 +14,7 @@ It is important to point out that:
 Strategy
 --------
 There are a set of problems to account:
-- automatic dependencies resolution 
+- automatic dependencies resolution
 - dynamic library loading
 - absolute resources path
 
@@ -46,4 +46,4 @@ Software recipes
 ----------------
 Here is a list of successfully installed software on Ubuntu Trusty:
 
-- *dolphin-emu*: based upon [glennric ppa](https://launchpad.net/~glennric/+archive/ubuntu/dolphin-emu), here is an archive containing the required packages: [dolphin-emu.tar](dolphin-emu.tar). Unpack it into your `sysroot/debget` folder, then install it from inside proot jain using `debget -d dolphin-emu`. In order to run the gtk version of dolphin-emu, you will also need libwxgtk3.0 (`debget -i libwxgtk3.0`). To make it work properly, be sure to bind your home directory inside the proot (use `wonderland.sh -b /home /home`).
+- *dolphin-emu*: based upon [glennric ppa](https://launchpad.net/~glennric/+archive/ubuntu/dolphin-emu), here is an archive containing the required packages: [dolphin-emu.tar](binaries/dolphin-emu.tar). Unpack it into your `sysroot/debget` folder, then install it from inside proot jain using `debget -d dolphin-emu`. In order to run the gtk version of dolphin-emu, you will also need libwxgtk3.0 (`debget -i libwxgtk3.0`). To make it work properly, be sure to bind your home directory inside the proot (use `wonderland.sh -b /home /home`).
